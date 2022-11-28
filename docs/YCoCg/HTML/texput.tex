@@ -1,0 +1,157 @@
+% Emacs, this is -*-latex-*-
+
+\title{The $\text{YCoCg}$ Transform}
+\maketitle
+
+\tableofcontents
+
+\section{The $\text{YCoCg}$ color domain}
+$\text{YCoCg}$ is a \emph{luma}-based
+(luminance-based\footnote{Luminance can be considered as the intensity
+part of a viual stimuli.} color domain. This domain rely on the idea
+of separating the luminance coefficients (Y) from two \emph{chroma}
+coefficients (orange and green in the case of $\text{YCoCg}$).
+
+The $\text{YCoCg}$ color model is a succesor of th $\text{YCrCb}$ one,
+where the transform filters has been redefined to be more efficient
+(considering more and new images). Moreover, it can be also considered
+a the digital version of the
+\href{https://en.wikipedia.org/wiki/YUV}{$\text{YUV}$ (analog) color
+  model}.
+
+\section{Chroma redundancy}
+
+Humans do not perceive detail in the chrominance as well as in they
+does in the
+luminance.~\cite{vruiz__visual_redundancy,burger2016digital}. As in
+$\text{YCrCb}$, the
+\href{https://en.wikipedia.org/wiki/Sampling_(signal_processing)}{sampling
+  rate} of the chroma is usually reduces to 1/4 without any noticeable
+distortion. This feature is used in some of the last image and video
+compression systems such as
+\href{https://en.wikipedia.org/wiki/JPEG_XR#Description}{JPEG XR} and
+\href{https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Video_coding_layer}{HEVC}.
+
+\section{The $\text{RGB} \Leftrightarrow \text{YCoCg}$ transform}
+%{{{ 
+
+Clearly, orthogonality is a desired property in lossy compression
+systems because it helps to isolate\footnote{Without considering the
+rest of components.} the impact (in the case of a color transform) of
+each color subband on the quality of the reconstruction of the image,
+simplifying significantly the determination of the pattern of QSs that
+generate the optimal RD curve.
+
+Moreover, Eqs.~\ref{eq:YCrCb} and \ref{eq:iYCrCb} were derived by
+\href{https://en.wikipedia.org/wiki/Principal_component_analysis}{Principal
+  Component Analysis (PCA)} on old\footnote{Recorded with the first
+analog color cameras in the 70's.} video data. The same procedure has
+been carried out with newer\footnote{\cite{malvar2008lifting} is dated
+in 2008.} images, obtaining
+\begin{equation}
+  \begin{bmatrix}
+    \text{Y} \\
+    \text{C}_1 \\
+    \text{C}_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \frac{1}{3} & \frac{1}{3} &  \frac{1}{3} \\ 
+    \frac{1}{2} &           0 & -\frac{1}{2} \\
+   -\frac{1}{4} & \frac{1}{2} & -\frac{1}{4}
+  \end{bmatrix}
+  %\cdot
+  \begin{bmatrix}
+    \text{R} \\
+    \text{G} \\
+    \text{B}
+  \end{bmatrix}
+  \Leftrightarrow
+  \begin{bmatrix}
+    \text{R} \\
+    \text{G} \\
+    \text{B}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1  &  1  & -\frac{2}{3} \\ 
+    1  &  0  &  \frac{4}{3} \\ 
+    1  & -1  & -\frac{2}{3}
+  \end{bmatrix}
+  %\cdot
+  \begin{bmatrix}
+    \text{Y} \\
+    \text{C}_1 \\
+    \text{C}_2
+  \end{bmatrix}.
+  \label{eq:optimal}
+\end{equation}
+
+The \href{https://en.wikipedia.org/wiki/YCoCg}{YCoCg} color transform
+is orthogonal and the synthesis filters gains\footnote{The gain of a
+transform can be determined computing the squared norm of the rows of
+the synthesis transform (the synthesis filters).} are 22/9 (for
+$\text{Y}$), 25/9 (for $\text{C}_1$) and 22/9 (for $\text{C}_2$).
+
+Unfortunately, from a perceptual perspective we must impose (thinking
+of the subsampling of the chromas) some features in a color transform
+(such as the influence of the green channel on the luma channel should
+be high) that violates the orthogonality constrain
+\cite{malvar2008lifting}. For this reason the authors finally propose
+the transform
+\begin{equation}
+  \begin{bmatrix}
+    \text{Y} \\
+    \text{Co} \\
+    \text{Cg}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \frac{1}{4} &  \frac{1}{2}  &  \frac{1}{4} \\ 
+    \frac{1}{2} &            0  & -\frac{1}{2} \\
+    -\frac{1}{4} &  \frac{1}{2}  & -\frac{1}{4}
+  \end{bmatrix}
+  %\cdot
+  \begin{bmatrix}
+    \text{R} \\
+    \text{G} \\
+    \text{B}
+  \end{bmatrix}
+  \Leftrightarrow
+  \begin{bmatrix}
+    \text{R} \\
+    \text{G} \\
+    \text{B}
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1  &  1  & -1 \\ 
+    1  &  0  &  1 \\ 
+    1  & -1  & -1
+  \end{bmatrix}
+  %\cdot
+  \begin{bmatrix}
+    \text{Y} \\
+    \text{Co} \\
+    \text{Cg}
+  \end{bmatrix},
+\end{equation}
+that is near orthogonal\footnote{For example, $\frac{1}{4}\frac{-1}{4}
++ \frac{1}{2}\frac{1}{2} + \frac{1}{4}\frac{-1}{4} = \frac{1}{8}$, and
+we should obtain always 0.}, and has channel gains 3 ($\text{Y}$), 2
+($\text{Co}$) and 3 ($\text{Cg}$). %These gains suggest that
+
+Again, notice that if the $\text{RGB}$ values ranges between $0$
+and $255$ (and rounding to the nearest integer), $0\le\text{Y}\le 255$,
+$-128\le\text{Co}\le 127$ and $-128\le\text{Cg}\le 127$, and
+therefore, the number of bits that are necessary to represent each
+component is $8$. Therefore, we can use the same QS range for each
+component. See this \href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/YCrCb_matrix.ipynb}{notebook}.
+
+%}}}
+
+\section{Resources}
+%{{{ 
+\renewcommand{\addcontentsline}[3]{}% Remove functionality of \addcontentsline
+\bibliography{data-compression,signal-processing}
+%}}}

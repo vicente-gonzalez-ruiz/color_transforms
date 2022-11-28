@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head> <title>The YCrCb Transform</title> 
+<meta charset='utf-8' /> 
+<meta content='TeX4ht (https://tug.org/tex4ht/)' name='generator' /> 
+<meta content='width=device-width,initial-scale=1' name='viewport' /> 
+<link href='index.css' rel='stylesheet' type='text/css' /> 
+<meta content='index.tex' name='src' /> 
+<script>window.MathJax = { tex: { tags: "ams", }, }; </script> 
+ <script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js' type='text/javascript'></script>  
+</head><body>
+   <div class='maketitle'>
+                                                                  
+
+                                                                  
+                                                                  
+
+                                                                  
+
+<h2 class='titleHead'>The \(\text {YCrCb}\) Transform</h2>
+ <div class='author'><a href='https://cms.ual.es/UAL/personas/persona.htm?id=515256515553484875'><span class='ecrm-1200'>Vicente González Ruiz</span></a> <span class='ecrm-1200'>- </span><a href='https://cms.ual.es/UAL/universidad/departamentos/informatica/index.htm'><span class='ecrm-1200'>Depto Informática</span></a> <span class='ecrm-1200'>- </span><a href='https://www.ual.es'><span class='ecrm-1200'>UAL</span></a></div><br />
+<div class='date'><span class='ecrm-1200'>November 28, 2022</span></div>
+   </div>
+   <h3 class='likesectionHead' id='contents'><a id='x1-1000'></a>Contents</h3>
+   <div class='tableofcontents'>
+    <span class='sectionToc'>1 <a href='#the-ycrcb-color-domain' id='QQ2-1-2'>The \(\text {YCrCb}\) color domain</a></span>
+<br />    <span class='sectionToc'>2 <a href='#the-rgb-ycrcb-transform' id='QQ2-1-3'>The \(\text {RGB} \Leftrightarrow \text {YCrCb}\) transform</a></span>
+<br />    <span class='sectionToc'>3 <a href='#resources' id='QQ2-1-4'>Resources</a></span>
+   </div>
+<!-- l. 8 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='the-ycrcb-color-domain'><span class='titlemark'>1   </span> <a id='x1-20001'></a>The \(\text {YCrCb}\) color domain</h3>
+<!-- l. 9 --><p class='noindent'>\(\text {YCrCb}\) is a <span class='ecti-1000'>luma</span>-based (luminance-based<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-2001f1'></a>
+color domain. This domain rely on the idea of separating the luminance
+coefficients (Y) from two <span class='ecti-1000'>chroma </span>coefficients (red and blue in the case of \(\text {YCrCb}\)). After
+using the transform, most of the energy will be concentrated in the luma (\(\text {Y}\))
+subband.
+</p><!-- l. 17 --><p class='indent'>   The \(\text {YCrCb}\) color model can be considered the digital version of the <a href='https://en.wikipedia.org/wiki/YUV'>\(\text {YUV}\) (analog) color model</a>,
+and in some way can be used to maintain the compatibility with legacy black and white
+systems is maintained while at the same time the bandwidth of the signal can be
+optimized by using different transmission bandwidths for the brightness and the chroma
+components.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-2002f2'></a> <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>
+                                                                  
+
+                                                                  
+</p><!-- l. 27 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='the-rgb-ycrcb-transform'><span class='titlemark'>2   </span> <a id='x1-30002'></a>The \(\text {RGB} \Leftrightarrow \text {YCrCb}\) transform</h3>
+<!-- l. 30 --><p class='noindent'>To convert a (color) pixel from the \(\text {RGB}\) domain into the <a href='https://en.wikipedia.org/wiki/YCbCr'>\(\text {YCrCb}\)</a> color domain, we use the \(\text {RGB/YCrCb}\)
+(analysis) transform <span class='cite'>[<span class='ecbx-1000'>?</span>]</span> \begin {equation}  \begin {array}{lcl} \text {Y} &amp; = &amp; 0.299\text {R} + 0.587\text {G} + 0.114\text {B} \\ \text {Cr} &amp; = &amp; 0.713(\text {R} - \text {Y}) + \delta \\ \text {Cb} &amp; = &amp; 0.564(\text {B} - \text {Y}) + \delta , \end {array} \label {eq:alternative_YCrCb}  \end {equation}
+where, \begin {equation}  \delta = \left \{ \begin {array}{ll} 128 &amp; \text {for 8 bits (unsigned) images},\\ 32768 &amp; \text {for 16 bits (unsigned) images},\\ 0.5 &amp; \text {for floating point (}[0,1]\text {) images} \end {array} \right .  \end {equation}
+is used to avoid negative coefficients. As it can be seen, \(\text {Cr}\) and \(\text {Cb}\) are scaled versions of \(\text {R} - \text {Y}\)
+and \(\text {B} - \text {Y}\), so \(\text {Cr}\) and \(\text {Cb}\) can be interpreted as measures of how much red and blue content in a
+pixel differs from luma, respectively. Notice also that for a gray pixel, \(\text {R}=\text {G}=\text {B}=\text {Y}\), and so
+\(\text {Cr}=\text {Cb}=0\) <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>.
+</p><!-- l. 63 --><p class='indent'>   As it can be seen, considering that the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and
+rounding to the nearest integer), \(0\le \text {Y}\le 255\), \(0\le \text {Cr}\le 255\) and \(0\le \text {Cb}\le 255\), and therefore, the number of bits that are
+necessary to represent each \(\text {YCrCb}\) component is 8 (although we must use floating point
+arithmetic to perform the transform).
+</p><!-- l. 70 --><p class='indent'>   Finally, notice that the \(\text {YCrCb}\) transform is not orthogonal because the analysis filters
+are not independent. This can be seen in the Eq. <span class='ecbx-1000'>??</span>, where the \(\text {Cr}\) coefficients depend
+on the coefficients of \(\text {Y}\), and therefore, there is a dependency between both <a href='https://en.wikipedia.org/wiki/Basis_(linear_algebra)'>basis</a>,
+and something similar happens for the \(\text {Cb}\) subband. This can be also easely
+checked:
+</p>
+   <div class='math-display'>
+<img alt='0.299∗ 0.5 +0.587∗ (− 0.4187)+ 0.114∗(− 0.0813) = − 0.1055451 ⁄= 0,
+' class='math-display' src='index0x.png' /></div>
+<!-- l. 78 --><p class='indent'>
+</p>
+   <div class='math-display'>
+<img alt='0.299∗ (− 0.1687)+ 0.587∗(− 0.3313)+ 0.114 ∗0.5 = − 0.1879144 ⁄= 0, and
+' class='math-display' src='index1x.png' /></div>
+                                                                  
+
+                                                                  
+<!-- l. 80 --><p class='indent'>
+</p>
+   <div class='math-display'>
+<img alt='0.5 ∗(− 0.1687)+ (− 0.4187)∗ (− 0.3313)+ (− 0.0813)∗0.5 = 0.01371531 ⁄= 0.
+' class='math-display' src='index2x.png' /></div>
+<!-- l. 85 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='resources'><span class='titlemark'>3   </span> <a id='x1-40003'></a>Resources</h3>
+   <div class='footnotes'><!-- l. 11 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>Luminance can be considered as the intensity part of a viual stimuli.</span></p>
+<!-- l. 25 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>Notice, however, that in the digital world bandwidth savings are equivalent to reduce the
+</span><span class='ecrm-0800'>sampling rate.</span></p>                                                                                                       </div>
+ 
+</body> 
+</html>

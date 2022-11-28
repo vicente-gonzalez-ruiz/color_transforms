@@ -1,0 +1,89 @@
+% Emacs, this is -*-latex-*-
+
+\title{The $\text{YCrCb}$ Transform}
+\maketitle
+
+\tableofcontents
+
+\section{The $\text{YCrCb}$ color domain}
+$\text{YCrCb}$ is a \emph{luma}-based
+(luminance-based\footnote{Luminance can be considered as the intensity
+part of a viual stimuli.} color domain. This domain rely on the idea
+of separating the luminance coefficients (Y) from two \emph{chroma}
+coefficients (red and blue in the case of $\text{YCrCb}$). After using
+the transform, most of the energy will be concentrated in the luma
+($\text{Y}$) subband.
+
+The $\text{YCrCb}$ color model can be considered the digital version
+of the \href{https://en.wikipedia.org/wiki/YUV}{$\text{YUV}$ (analog)
+  color model}, and in some way can be used to maintain the
+compatibility with legacy black and white systems is maintained while
+at the same time the bandwidth of the signal can be optimized by using
+diﬀerent transmission bandwidths for the brightness and the chroma
+components.\footnote{Notice, however, that in the digital world
+bandwidth savings are equivalent to reduce the sampling
+rate.}~\cite{burger2016digital}
+
+\section{The $\text{RGB} \Leftrightarrow \text{YCrCb}$ transform}
+%{{{ 
+
+To convert a (color) pixel from the $\text{RGB}$ domain into the
+\href{https://en.wikipedia.org/wiki/YCbCr}{$\text{YCrCb}$} color
+domain, we use the $\text{RGB/YCrCb}$ (analysis)
+transform~\cite{malvar2008lifting}
+%Eq.~\ref{eq:YCrCb}
+%\href{https://docs.opencv.org/3.4/de/d25/imgproc_color_conversions.html}{can
+%  be also written as}
+\begin{equation}
+  \begin{array}{lcl}
+    \text{Y}  & = & 0.299\text{R} + 0.587\text{G} + 0.114\text{B} \\
+    \text{Cr} & = & 0.713(\text{R} - \text{Y}) + \delta \\
+    \text{Cb} & = & 0.564(\text{B} - \text{Y}) + \delta,
+  \end{array}
+  \label{eq:alternative_YCrCb}
+\end{equation}
+where,
+\begin{equation}
+  \delta = \left\{
+  \begin{array}{ll}
+    128 & \text{for 8 bits (unsigned) images},\\
+    32768 & \text{for 16 bits (unsigned) images},\\
+    0.5 & \text{for floating point (}[0,1]\text{) images}
+  \end{array}
+  \right.
+\end{equation}
+is used to avoid negative coefficients. As it can be seen, $\text{Cr}$
+and $\text{Cb}$ are scaled versions of $\text{R} - \text{Y}$ and
+$\text{B} - \text{Y}$, so $\text{Cr}$ and $\text{Cb}$ can be
+interpreted as measures of how much red and blue content in a pixel
+differs from luma, respectively. Notice also that for a gray pixel,
+$\text{R}=\text{G}=\text{B}=\text{Y}$, and so
+$\text{Cr}=\text{Cb}=0$~\cite{malvar2008lifting}.
+
+As it can be seen, considering that the $\text{RGB}$ values ranges
+between $0$ and $255$ (and rounding to the nearest integer),
+$0\le\text{Y}\le 255$, $0\le\text{Cr}\le 255$ and
+$0\le\text{Cb}\le 255$, and therefore, the number of bits that are
+necessary to represent each $\text{YCrCb}$ component is 8 (although we
+must use floating point arithmetic to perform the transform).
+
+Finally, notice that the $\text{YCrCb}$ transform is not orthogonal
+because the analysis filters are not independent. This can be seen in
+the Eq.~\ref{eq:alternative_YCrCb}, where the $\text{Cr}$ coefficients
+depend on the coefficients of $\text{Y}$, and therefore, there is a
+dependency between both
+\href{https://en.wikipedia.org/wiki/Basis_(linear_algebra)}{basis},
+and something similar happens for the $\text{Cb}$ subband. This can
+be also easely checked: $$0.299*0.5 + 0.587*(-0.4187) +
+0.114*(-0.0813) = -0.1055451 \neq 0,$$ $$0.299*(-0.1687) +
+0.587*(-0.3313) + 0.114*0.5 = -0.1879144 \neq
+0,~\mathrm{and}$$ $$0.5*(-0.1687) + (-0.4187)*(-0.3313 ) +
+(-0.0813)*0.5 = 0.01371531 \neq 0.$$
+
+%}}}
+
+\section{Resources}
+%{{{ 
+\renewcommand{\addcontentsline}[3]{}% Remove functionality of \addcontentsline
+\bibliography{data-compression,signal-processing}
+%}}}

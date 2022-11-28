@@ -1,4 +1,4 @@
-''' MRVC/YCrCb.py '''
+'''YCrCb color image transform.'''
 
 import cv2
 import numpy as np

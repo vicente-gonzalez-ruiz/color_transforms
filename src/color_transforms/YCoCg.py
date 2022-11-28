@@ -1,4 +1,4 @@
-''' MRVC/YCoCg.py '''
+'''YCoCg color image transform.'''
 
 import numpy as np
 

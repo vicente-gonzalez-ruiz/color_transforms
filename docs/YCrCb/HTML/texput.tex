@@ -8,7 +8,7 @@
 \section{The $\text{YCrCb}$ color domain}
 $\text{YCrCb}$ is a \emph{luma}-based
 (luminance-based\footnote{Luminance can be considered as the intensity
-part of a viual stimuli.} color domain. This domain rely on the idea
+part of a viual stimuli.}) color domain. This domain rely on the idea
 of separating the luminance coefficients (Y) from two \emph{chroma}
 coefficients (red and blue in the case of $\text{YCrCb}$). After using
 the transform, most of the energy will be concentrated in the luma
@@ -60,8 +60,6 @@ differs from luma, respectively. Notice also that for a gray pixel,
 $\text{R}=\text{G}=\text{B}=\text{Y}$, and so
 $\text{Cr}=\text{Cb}=0$~\cite{malvar2008lifting}.
 
-%%%%%%%%%
-
 \begin{equation}
   \begin{bmatrix}
     \text{Y} \\
@@ -85,8 +83,7 @@ $\text{Cr}=\text{Cb}=0$~\cite{malvar2008lifting}.
 where $\text{Y}$ is the luma and $\text{CrCb}$ are the chromas. The
 main reason for such mapping is that the HVS is much less sensitive to
 the high-frequency information in the
-chromas~\cite{burger2016digital}. Thus, as we mentioned above,
-compression systems such as
+chromas~\cite{burger2016digital}. Thus, encoding systems such as
 \href{https://en.wikipedia.org/wiki/JPEG}{JPEG} can
 \href{https://en.wikipedia.org/wiki/Downsampling_(signal_processing)}{downsample}
 the chromas (usually by 2:1 in the horizontal and vertical
@@ -94,8 +91,6 @@ directions), as well as increase their quantization step sizes with
 respect to the luma, to achieve further
 \href{https://en.wikipedia.org/wiki/Data_compression_ratio}{compression}
 without noticeable visual distortion~\cite{malvar2008lifting}.
-
-%%%%%%%%
 
 As it can be seen, considering that the $\text{RGB}$ values ranges
 between $0$ and $255$ (and rounding to the nearest integer),
@@ -106,16 +101,15 @@ must use floating point arithmetic to perform the transform).
 
 Finally, notice that the $\text{YCrCb}$ transform is not orthogonal
 because the analysis filters are not independent. This can be seen in
-the Eq.~\ref{eq:alternative_YCrCb}, where the $\text{Cr}$ coefficients
-depend on the coefficients of $\text{Y}$, and therefore, there is a
-dependency between both
+the Eq.~\eqref{eq:alternative_YCrCb}, where the $\text{Cr}$
+coefficients depend on the coefficients of $\text{Y}$, and therefore,
+there is a dependency between both
 \href{https://en.wikipedia.org/wiki/Basis_(linear_algebra)}{basis},
-and something similar happens for the $\text{Cb}$ subband. This can
-be also easely checked: $$0.299*0.5 + 0.587*(-0.4187) +
-0.114*(-0.0813) = -0.1055451 \neq 0,$$ $$0.299*(-0.1687) +
-0.587*(-0.3313) + 0.114*0.5 = -0.1879144 \neq
-0,~\mathrm{and}$$ $$0.5*(-0.1687) + (-0.4187)*(-0.3313 ) +
-(-0.0813)*0.5 = 0.01371531 \neq 0.$$
+and something similar happens for the $\text{Cb}$ subband. This can be
+also easely checked: $$0.299*0.5 + 0.587*(-0.4187) + 0.114*(-0.0813) =
+-0.1055451 \neq 0,$$ $$0.299*(-0.1687) + 0.587*(-0.3313) + 0.114*0.5 =
+-0.1879144 \neq 0,~\mathrm{and}$$ $$0.5*(-0.1687) + (-0.4187)*(-0.3313
+) + (-0.0813)*0.5 = 0.01371531 \neq 0.$$
 
 %}}}
 
@@ -175,11 +169,10 @@ that in matrix form is
 The $\text{YCrCb}$ transform uses three non-orthogonal
 (interdependent) filters to generate three
 subbands~\cite{vruiz__transform_coding} that we will denote by
-$\text{Y}$, $\text{Cr}$, and $\text{Cb}$~\cite{vruiz__YCrCb}. Since in
-most of the images, most of the energy is concentrated in the subband
-$\text{Y}$, the transformed image improves its RD curve. This can be
-checked in the
-\href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/contents/YCrCb_SQ/YCrCb_SQ.ipynb}{notebook}.
+$\text{Y}$, $\text{Cr}$, and $\text{Cb}$. Since in most of the images,
+most of the energy is concentrated in the subband $\text{Y}$, the
+transformed image improves its RD curve. This can be checked in the
+\href{}{Removing RGB redundancy with the YCrCb transform}.
 
 As it can be also seen in this notebook, the $\text{YCrCb}$ transform
 the gains of the synthesis filters depends on the amplitude of the
@@ -241,7 +234,7 @@ this
 \section{References}
 %{{{ 
 \renewcommand{\addcontentsline}[3]{}% Remove functionality of \addcontentsline
-\bibliography{data-compression,signal-processing}
+\bibliography{data_compression,signal_processing,image_compression,image_processing}
 %}}}
 
 

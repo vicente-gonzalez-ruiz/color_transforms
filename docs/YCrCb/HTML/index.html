@@ -32,7 +32,7 @@
 <!-- l. 8 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='the-ycrcb-color-domain'><span class='titlemark'>1   </span> <a id='x1-20001'></a>The \(\text {YCrCb}\) color domain</h3>
-<!-- l. 9 --><p class='noindent'>\(\text {YCrCb}\) is a <span class='ecti-1000'>luma</span>-based (luminance-based<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-2001f1'></a>
+<!-- l. 9 --><p class='noindent'>\(\text {YCrCb}\) is a <span class='ecti-1000'>luma</span>-based (luminance-based<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-2001f1'></a>)
 color domain. This domain rely on the idea of separating the luminance
 coefficients (Y) from two <span class='ecti-1000'>chroma </span>coefficients (red and blue in the case of \(\text {YCrCb}\)). After
 using the transform, most of the energy will be concentrated in the luma (\(\text {Y}\))
@@ -41,7 +41,7 @@ subband.
 and in some way can be used to maintain the compatibility with legacy black and white
 systems is maintained while at the same time the bandwidth of the signal can be
 optimized by using different transmission bandwidths for the brightness and the chroma
-components.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-2002f2'></a> <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>
+components.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-2002f2'></a> <span class='cite'>[<a href='#Xburger2016digital'>1</a>]</span>
                                                                   
 
                                                                   
@@ -49,34 +49,33 @@ components.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class
 </p>
    <h3 class='sectionHead' id='the-rgb-ycrcb-transform'><span class='titlemark'>2   </span> <a id='x1-30002'></a>The \(\text {RGB} \Leftrightarrow \text {YCrCb}\) transform</h3>
 <!-- l. 30 --><p class='noindent'>To convert a (color) pixel from the \(\text {RGB}\) domain into the <a href='https://en.wikipedia.org/wiki/YCbCr'>\(\text {YCrCb}\)</a> color domain, we use the \(\text {RGB/YCrCb}\)
-(analysis) transform <span class='cite'>[<span class='ecbx-1000'>?</span>]</span> \begin {equation}  \begin {array}{lcl} \text {Y} &amp; = &amp; 0.299\text {R} + 0.587\text {G} + 0.114\text {B} \\ \text {Cr} &amp; = &amp; 0.713(\text {R} - \text {Y}) + \delta \\ \text {Cb} &amp; = &amp; 0.564(\text {B} - \text {Y}) + \delta , \end {array} \label {eq:alternative_YCrCb}  \end {equation}
+(analysis) transform <span class='cite'>[<a href='#Xmalvar2008lifting'>3</a>]</span> \begin {equation}  \begin {array}{lcl} \text {Y} &amp; = &amp; 0.299\text {R} + 0.587\text {G} + 0.114\text {B} \\ \text {Cr} &amp; = &amp; 0.713(\text {R} - \text {Y}) + \delta \\ \text {Cb} &amp; = &amp; 0.564(\text {B} - \text {Y}) + \delta , \end {array} \label {eq:alternative_YCrCb}  \end {equation}
 where, \begin {equation}  \delta = \left \{ \begin {array}{ll} 128 &amp; \text {for 8 bits (unsigned) images},\\ 32768 &amp; \text {for 16 bits (unsigned) images},\\ 0.5 &amp; \text {for floating point (}[0,1]\text {) images} \end {array} \right .  \end {equation}
 is used to avoid negative coefficients. As it can be seen, \(\text {Cr}\) and \(\text {Cb}\) are scaled versions of \(\text {R} - \text {Y}\)
 and \(\text {B} - \text {Y}\), so \(\text {Cr}\) and \(\text {Cb}\) can be interpreted as measures of how much red and blue content in a
 pixel differs from luma, respectively. Notice also that for a gray pixel, \(\text {R}=\text {G}=\text {B}=\text {Y}\), and so
-\(\text {Cr}=\text {Cb}=0\) <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>.
-</p><!-- l. 84 --><p class='indent'>   \begin {equation}  \begin {bmatrix} \text {Y} \\ \text {Cr} \\ \text {Cb} \end {bmatrix} = \begin {bmatrix} 0.299 &amp; 0.587 &amp; 0.114 \\ 0.5 &amp; -0.4187 &amp; -0.0813 \\ -0.1687 &amp; -0.3313 &amp; 0.5 \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix}, \label {eq:YCrCb}  \end {equation}
+\(\text {Cr}=\text {Cb}=0\) <span class='cite'>[<a href='#Xmalvar2008lifting'>3</a>]</span>.
+</p><!-- l. 82 --><p class='indent'>   \begin {equation}  \begin {bmatrix} \text {Y} \\ \text {Cr} \\ \text {Cb} \end {bmatrix} = \begin {bmatrix} 0.299 &amp; 0.587 &amp; 0.114 \\ 0.5 &amp; -0.4187 &amp; -0.0813 \\ -0.1687 &amp; -0.3313 &amp; 0.5 \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix}, \label {eq:YCrCb}  \end {equation}
 where \(\text {Y}\) is the luma and \(\text {CrCb}\) are the chromas. The main reason for such mapping is that
-the HVS is much less sensitive to the high-frequency information in the
-chromas <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>. Thus, as we mentioned above, compression systems such as
-<a href='https://en.wikipedia.org/wiki/JPEG'>JPEG</a> can <a href='https://en.wikipedia.org/wiki/Downsampling_(signal_processing)'>downsample</a> the chromas (usually by 2:1 in the horizontal and
-vertical directions), as well as increase their quantization step sizes with
-respect to the luma, to achieve further <a href='https://en.wikipedia.org/wiki/Data_compression_ratio'>compression</a> without noticeable visual
-distortion <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>.
-</p><!-- l. 100 --><p class='indent'>   As it can be seen, considering that the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and
+the HVS is much less sensitive to the high-frequency information in the chromas <span class='cite'>[<a href='#Xburger2016digital'>1</a>]</span>.
+Thus, encoding systems such as <a href='https://en.wikipedia.org/wiki/JPEG'>JPEG</a> can <a href='https://en.wikipedia.org/wiki/Downsampling_(signal_processing)'>downsample</a> the chromas (usually by 2:1
+in the horizontal and vertical directions), as well as increase their quantization step
+sizes with respect to the luma, to achieve further <a href='https://en.wikipedia.org/wiki/Data_compression_ratio'>compression</a> without noticeable
+visual distortion <span class='cite'>[<a href='#Xmalvar2008lifting'>3</a>]</span>.
+</p><!-- l. 95 --><p class='indent'>   As it can be seen, considering that the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and
 rounding to the nearest integer), \(0\le \text {Y}\le 255\), \(0\le \text {Cr}\le 255\) and \(0\le \text {Cb}\le 255\), and therefore, the number of bits that are
 necessary to represent each \(\text {YCrCb}\) component is 8 (although we must use floating point
 arithmetic to perform the transform).
-</p><!-- l. 107 --><p class='indent'>   Finally, notice that the \(\text {YCrCb}\) transform is not orthogonal because the analysis filters
-are not independent. This can be seen in the Eq. <span class='ecbx-1000'>??</span>, where the \(\text {Cr}\) coefficients depend
-on the coefficients of \(\text {Y}\), and therefore, there is a dependency between both <a href='https://en.wikipedia.org/wiki/Basis_(linear_algebra)'>basis</a>,
-and something similar happens for the \(\text {Cb}\) subband. This can be also easely
-checked:
+</p><!-- l. 102 --><p class='indent'>   Finally, notice that the \(\text {YCrCb}\) transform is not orthogonal because the analysis filters
+are not independent. This can be seen in the Eq. \eqref{eq:alternative_YCrCb},
+where the \(\text {Cr}\) coefficients depend on the coefficients of \(\text {Y}\), and therefore, there is a
+dependency between both <a href='https://en.wikipedia.org/wiki/Basis_(linear_algebra)'>basis</a>, and something similar happens for the \(\text {Cb}\) subband.
+This can be also easely checked:
 </p>
    <div class='math-display'>
 <img alt='0.299∗ 0.5 +0.587∗ (− 0.4187)+ 0.114∗(− 0.0813) = − 0.1055451 ⁄= 0,
 ' class='math-display' src='index0x.png' /></div>
-<!-- l. 115 --><p class='indent'>
+<!-- l. 110 --><p class='indent'>
                                                                   
 
                                                                   
@@ -84,33 +83,34 @@ checked:
    <div class='math-display'>
 <img alt='0.299∗ (− 0.1687)+ 0.587∗(− 0.3313)+ 0.114 ∗0.5 = − 0.1879144 ⁄= 0, and
 ' class='math-display' src='index1x.png' /></div>
-<!-- l. 117 --><p class='indent'>
+<!-- l. 111 --><p class='indent'>
 </p>
    <div class='math-display'>
 <img alt='0.5 ∗(− 0.1687)+ (− 0.4187)∗ (− 0.3313)+ (− 0.0813)∗0.5 = 0.01371531 ⁄= 0.
 ' class='math-display' src='index2x.png' /></div>
-<!-- l. 122 --><p class='indent'>   The inverse (synthesis) transform is defined by
+<!-- l. 116 --><p class='indent'>   The inverse (synthesis) transform is defined by
 \begin {equation}  \begin {array}{lcl} \text {R} &amp; = &amp; \text {Y} + 1.403(\text {Cr} - \delta ) \\ \text {G} &amp; = &amp; \text {Y} - 0.714(\text {Cr} - \delta ) - 0.344(\text {Cb} - \delta )\\ \text {B} &amp; = &amp; \text {Y} + 1.773(\text {Cb} - \delta ). \end {array} \label {eq:iYCrCb}  \end {equation}
 that in matrix form is \begin {equation}  \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} = \begin {bmatrix} 1 &amp; 1.403 &amp; 0 \\ 1 &amp; -0.714 &amp; -0.344 \\ 1 &amp; 0 &amp; 1.773 \end {bmatrix} \begin {bmatrix} \text {Y} \\ \text {Cr}-\delta \\ \text {Cb}-\delta \end {bmatrix},  \end {equation}
-</p><!-- l. 174 --><p class='noindent'>
+</p><!-- l. 168 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='decorrelation-with-the-ycrcb'><span class='titlemark'>3   </span> <a id='x1-40003'></a>Decorrelation with the \(\text {YCrCb}\)</h3>
-<!-- l. 175 --><p class='noindent'>The \(\text {YCrCb}\) transform uses three non-orthogonal (interdependent) filters to generate three
-subbands <span class='cite'>[<a href='#Xvruiz__transform_coding'>1</a>]</span> that we will denote by \(\text {Y}\), \(\text {Cr}\), and \(\text {Cb}\) <span class='cite'>[<span class='ecbx-1000'>?</span>]</span>. Since in most of the images, most of
-the energy is concentrated in the subband \(\text {Y}\), the transformed image improves its RD
-curve. This can be checked in the <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/contents/YCrCb_SQ/YCrCb_SQ.ipynb'>notebook</a>.
-</p><!-- l. 184 --><p class='indent'>   As it can be also seen in this notebook, the \(\text {YCrCb}\) transform the gains of the synthesis
+<!-- l. 169 --><p class='noindent'>The \(\text {YCrCb}\) transform uses three non-orthogonal (interdependent) filters to generate three
+subbands <span class='cite'>[<a href='#Xvruiz__transform_coding'>2</a>]</span> that we will denote by \(\text {Y}\), \(\text {Cr}\), and \(\text {Cb}\). Since in most of the images, most of the
+energy is concentrated in the subband \(\text {Y}\), the transformed image improves its RD
+curve. This can be checked in the Removing RGB redundancy with the YCrCb
+transform.
+</p><!-- l. 177 --><p class='indent'>   As it can be also seen in this notebook, the \(\text {YCrCb}\) transform the gains of the synthesis
 filters depends on the amplitude of the coefficients. This basically means that we
 cannot optimze the quantization steps to minimize the distortion.
-</p><!-- l. 189 --><p class='indent'>   The \(\text {YCrCb}\) color domain has been used in JPEG to remove both, statistical and visual
+</p><!-- l. 182 --><p class='indent'>   The \(\text {YCrCb}\) color domain has been used in JPEG to remove both, statistical and visual
 redundancy.
-</p><!-- l. 192 --><p class='noindent'>
+</p><!-- l. 185 --><p class='noindent'>
 </p>
-   <h3 class='sectionHead' id='quantization-in-the-ycrcb-domain'><span class='titlemark'>4   </span> <a id='x1-50004'></a>Quantization in the \(\text {YCrCb}\) domain</h3>
                                                                   
 
                                                                   
-<!-- l. 194 --><p class='noindent'>The YCrCb transform is not orthogonal and the relative synthesis filters gains
+   <h3 class='sectionHead' id='quantization-in-the-ycrcb-domain'><span class='titlemark'>4   </span> <a id='x1-50004'></a>Quantization in the \(\text {YCrCb}\) domain</h3>
+<!-- l. 187 --><p class='noindent'>The YCrCb transform is not orthogonal and the relative synthesis filters gains
 depends on the energy of the inversely transformed components. In this case, we can
 estimate the distortion generated by the quantization of a color subband, always
 measured in the RGB domain, if the rest of subbands are unquantized. This can be
@@ -124,22 +124,22 @@ the algorithm:
      </li>
 <li class='enumerate' id='x1-5006x3'>Apply progressively the combinations quantization steps. The distortion
      can be measure in both, the color-DCT and the RGB domains.</li></ol>
-<!-- l. 209 --><p class='noindent'>See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/YCrCb_compression.ipynb'>notebook</a>.
-</p><!-- l. 211 --><p class='indent'>   Notice that the only alternative to this “fast” rate-control algorithm is to perform
+<!-- l. 202 --><p class='noindent'>See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/YCrCb_compression.ipynb'>notebook</a>.
+</p><!-- l. 204 --><p class='indent'>   Notice that the only alternative to this “fast” rate-control algorithm is to perform
 a brute-force search of quantization steps combinations.
-</p><!-- l. 215 --><p class='indent'>   The synthesis filters gains are important because the quantization steps of each
+</p><!-- l. 208 --><p class='indent'>   The synthesis filters gains are important because the quantization steps of each
 YCrCb component should be adjusted in order to effectively provide the desired
 number of <a href='http://www.winlab.rutgers.edu/~crose/322_html/quantization.pdf'>bins</a> (different dequantized values) in each component.
-</p><!-- l. 221 --><p class='indent'>   The synthesis filters generates a gain of \(||1^2 + 1^2 + 1^2||_2^2=3\) (square of the Euclidean norm) for the \(\text {Y}\)
+</p><!-- l. 214 --><p class='indent'>   The synthesis filters generates a gain of \(||1^2 + 1^2 + 1^2||_2^2=3\) (square of the Euclidean norm) for the \(\text {Y}\)
 component, \(||1.402^2 + 0.714^2 + 0^2||_2^2=2.4754\) for the \(\text {Cr}\) component, and \(||0^2 + 0.344^2+ 1.772^2||_2^2=3.25832\) for the \(\text {Cb}\) component. So, when compressing an
 image through quantization, the QSs should be modulated accordinly (the higher the
 gain, the higher the quantization error, and therefore, the smaller the QS should
 be).
-</p><!-- l. 230 --><p class='indent'>   The RGB/YCrCb transform is not
+</p><!-- l. 223 --><p class='indent'>   The RGB/YCrCb transform is not
 orthogonal<span class='footnote-mark'><a href='#fn3x0' id='fn3x0-bk'><sup class='textsuperscript'>3</sup></a></span><a id='x1-5007f3'></a>
 and therefore the contribution of each channel to the quality of the reconstructed
 image \(\tilde {X}\) are not additive (this can be seen in this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/performance.ipynb'>notebook</a>).
-</p><!-- l. 241 --><p class='noindent'>
+</p><!-- l. 234 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='references'><span class='titlemark'>5   </span> <a id='x1-60005'></a>References</h3>
                                                                   
@@ -147,13 +147,23 @@ image \(\tilde {X}\) are not additive (this can be seen in this <a href='https:/
                                                                   
    <div class='thebibliography'>
    <p class='bibitem'><span class='biblabel'>
- [1]<span class='bibsp'>   </span></span><a id='Xvruiz__transform_coding'></a>V. González-Ruiz. <a href='https://vicente-gonzalez-ruiz.github.io/transform_coding/'>Transform Coding</a>.
+ [1]<span class='bibsp'>   </span></span><a id='Xburger2016digital'></a>W. Burger and M.J. Burge.  <a href='https://educons.edu.rs/wp-content/uploads/2020/05/2016-Digital-Image-Processing.pdf'><span class='ecti-1000'>Digital Image Processing: An Algorithmic
+   </span><span class='ecti-1000'>Introduction Using Java</span></a>. Springer, 2016.
+   </p>
+   <p class='bibitem'><span class='biblabel'>
+ [2]<span class='bibsp'>   </span></span><a id='Xvruiz__transform_coding'></a>V. González-Ruiz. <a href='https://vicente-gonzalez-ruiz.github.io/transform_coding/'>Transform Coding</a>.
+   </p>
+   <p class='bibitem'><span class='biblabel'>
+ [3]<span class='bibsp'>   </span></span><a id='Xmalvar2008lifting'></a>H.S. Malvar, G.J. Sullivan, and S. Srinivasan.  <a href='https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/2008_ColorTransforms_MalvarSullivanSrinivasan.pdf'>Lifting-based reversible
+   color  transformations  for  image  compression</a>.   In  <span class='ecti-1000'>Applications of Digital
+   </span><span class='ecti-1000'>Image  Processing  XXXI</span>,  volume  7073,  pages  707307–1  –  707307–10.
+   International Society for Optics and Photonics, 2008.
 </p>
    </div>
    <div class='footnotes'><!-- l. 11 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>Luminance can be considered as the intensity part of a viual stimuli.</span></p>
 <!-- l. 25 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>Notice, however, that in the digital world bandwidth savings are equivalent to reduce the
 </span><span class='ecrm-0800'>sampling rate.</span></p>
-<!-- l. 235 --><p class='indent'>     <span class='footnote-mark'><a href='#fn3x0-bk' id='fn3x0'><sup class='textsuperscript'>3</sup></a></span><span class='ecrm-0800'>The RGB/YCrCb is not orthogonal because, for example, as we can see in the Eq. </span><span class='ecbx-0800'>??</span><span class='ecrm-0800'>, the
+<!-- l. 228 --><p class='indent'>     <span class='footnote-mark'><a href='#fn3x0-bk' id='fn3x0'><sup class='textsuperscript'>3</sup></a></span><span class='ecrm-0800'>The RGB/YCrCb is not orthogonal because, for example, as we can see in the Eq. </span><span class='ecbx-0800'>??</span><span class='ecrm-0800'>, the
 </span><span class='ecrm-0800'>value of Cr depends on the value of Y, and therefore, there is a dependency between both</span>
 <a href='https://en.wikipedia.org/wiki/Basis_(linear_algebra)'><span class='ecrm-0800'>basis</span></a><span class='ecrm-0800'>.</span></p>                                                                                                                   </div>
  

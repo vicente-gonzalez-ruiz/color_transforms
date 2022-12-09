@@ -84,7 +84,7 @@ where the
 }
 
 \section{Quantization in the 3-DCT domain}
-The synthesis filters of orthonormal transforms are orthogonal (their
+The synthesis filters of DCT are orthogonal (their
 contributions to the reconstructed signal are independent) and have
 exactly the unity gain.\footnote{The quantization error is the same in
 all the subbands because all of them have exactly the same gain.}
@@ -117,18 +117,10 @@ where the
   \langle x, x\rangle =  \sum_{i}{x_i^2}.
 \end{equation}
 
-If we consider that the RD curve can be affeced by the compresiblity of the subbands, a better solution to find the optimal RD curve is:
-\begin{enumerate}
-\item Variying the $\Delta$, compute the RD curve for each DCT
-  subband.
-\item Sort the RD points (considering the three subbands at once), by
-  their slope.
-\item Apply progressively the combinations of quantization steps
-  described by the sorted RD points.
-\end{enumerate}
-Notice that this algorithm is right because the DCT is orthogonal,
-i.e., the contributions of the subbands to the reconstructe signal are
-independent. See this \href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/color-DCT_compression.ipynb}{notebook}. % Arreglar link
+If we consider that the RD curve can be affeced by the compresibility
+of the subbands, a better solution to find the optimal RD curve would
+consist in selecting the quantization step size for each subband that
+produce the same slope in the corresponding RD channel curve.
 
 \section{References}
 

@@ -23,141 +23,72 @@
    </div>
    <h3 class='likesectionHead' id='contents'><a id='x1-1000'></a>Contents</h3>
    <div class='tableofcontents'>
-    <span class='sectionToc'>1 <a href='#ddct' id='QQ2-1-2'>1D-DCT</a></span>
-<br />     <span class='subsectionToc'>1.1 <a href='#the-rgbdct' id='QQ2-1-3'>The \(\text {RGB}\)-DCT</a></span>
-<br />     <span class='subsectionToc'>1.2 <a href='#quantization-in-the-colordct-domain' id='QQ2-1-4'>Quantization in the color-DCT domain</a></span>
-<br />    <span class='sectionToc'>2 <a href='#the-ddct' id='QQ2-1-5'>The 2D-DCT</a></span>
-<br />     <span class='subsectionToc'>2.1 <a href='#quantization-in-the-spatial-dct-domain' id='QQ2-1-7'>Quantization in the (spatial) DCT domain</a></span>
-<br />    <span class='sectionToc'>3 <a href='#resources' id='QQ2-1-8'>Resources</a></span>
+    <span class='sectionToc'>1 <a href='#definition' id='QQ2-1-2'>Definition</a></span>
+<br />    <span class='sectionToc'>2 <a href='#quantization-in-the-dct-domain' id='QQ2-1-3'>Quantization in the 3-DCT domain</a></span>
+<br />    <span class='sectionToc'>3 <a href='#references' id='QQ2-1-4'>References</a></span>
    </div>
 <!-- l. 9 --><p class='noindent'>
 </p>
-   <h3 class='sectionHead' id='ddct'><span class='titlemark'>1   </span> <a id='x1-20001'></a>1D-DCT</h3>
-<!-- l. 11 --><p class='noindent'>The <a href='https://en.wikipedia.org/wiki/Discrete_cosine_transform'>DCT (Discrete Cosine Transform)</a> is an <a href='https://en.wikipedia.org/wiki/Orthonormality'>orthonormal</a> <a href='https://vicente-gonzalez-ruiz.github.io/transform_coding/'>transform</a> <span class='cite'>[<a href='#Xvruiz__transform_coding'>2</a>]</span>.
-</p><!-- l. 16 --><p class='indent'>   In the 1D case, the forward DCT for a digital signal \(\mathbf {g}_n\) of length \(N\) is defined as <span class='cite'>[<a href='#Xburger2016digital'>1</a>]</span>
-\begin {equation}  {\mathbf h}_u = \sqrt {\frac {2}{N}}\sum _{n=0}^{N-1}{\mathbf g}_n{\mathbf c}_u\cos \Big (\pi \frac {u(2x+1)}{2N}\Big ),  \end {equation}
-for \(0&lt;u&lt;N\), and the inverse transform is \begin {equation}  {\mathbf g}_n = \sqrt {\frac {2}{N}}\sum _{u=0}^{N-1}{\mathbf h}_u{\mathbf c}_u\cos \Big (\pi \frac {u(2x+1)}{2N}\Big ),  \end {equation}
-for \(0&lt;n&lt;N\), with \begin {equation}  {\mathbf c}_u = \left \{ \begin {array}{ll} \frac {1}{\sqrt {2}} &amp; \quad \text {for}~u=0, \\ 1 &amp; \quad \text {otherwise}. \end {array} \right .  \end {equation}
-</p><!-- l. 37 --><p class='indent'>   The transformed signal is a sequence of coefficients \({\mathbf h}_u\) with the same length than
-the original signal \({\mathbf g}_n\), and the position of the coefficients in the transform domain
-indicate the contribution of such coefficient to the corresponding (in this case,
-spatial) frequency. For example, the coefficient at the position 0 (that is
-commonly refered as DC (Direct Current)) is equal to the average of the signal.
-                                                                  
-
-                                                                  
-The rest of high-frequency coefficients are called AC (Alternating Current)
-coefficients.
-</p><!-- l. 46 --><p class='indent'>   The DCT can be also expressed in matrix <span class='cite'>[<a href='#Xsayood2017introduction'>3</a>]</span> form as \begin {equation}  {\mathbf h} = {\mathbf K}{\mathbf g},  \end {equation}
-where \(\mathbf K\) is the forward transform matrix. The rows of the transform matrix are often
-referred to as the basis vectors for the transform because they form an orthonormal
-basis set (see these <a href='https://cseweb.ucsd.edu/classes/fa17/cse166-a/lec13.pdf'>slides</a>), and the elements of the transformed sequence are often
-called the transform coefficients. Obviously, the inverse transform is computed by
-\begin {equation}  {\mathbf g} = {\mathbf K}^{-1}{\mathbf h},  \end {equation}
-where \({\mathbf K}^{-1}\) denotes the inverse matrix of \(\mathbf K\). In the case of the DCT, \(\mathbf K\) is <a href='https://en.wikipedia.org/wiki/Orthogonal_matrix'>orthogonal</a> and
-therefore, \({\mathbf K}^{-1}={\mathbf K}^{\text T}\), where \(\cdot ^{\text T}\) denotes the transpose of \(\mathbf K\).
-</p><!-- l. 68 --><p class='noindent'>
-</p>
-   <h4 class='subsectionHead' id='the-rgbdct'><span class='titlemark'>1.1   </span> <a id='x1-30001.1'></a>The \(\text {RGB}\)-DCT</h4>
-<!-- l. 70 --><p class='noindent'>The \(\text {RGB}\)-DCT is a DCT applied to a vector of \(3\) elements (in our case, a \(\text {RGB}\) pixel) defined by
+   <h3 class='sectionHead' id='definition'><span class='titlemark'>1   </span> <a id='x1-20001'></a>Definition</h3>
+<!-- l. 11 --><p class='noindent'>The \(\text {RGB}\)-DCT is a DCT applied to a vector of \(3\) elements (in our case, a \(\text {RGB}\) pixel) defined by
 \begin {equation}  \begin {bmatrix} \text {DCT}_0 \\ \text {DCT}_1 \\ \text {DCT}_2 \end {bmatrix} = \begin {bmatrix} 0.57735027 &amp; 0.70710678 &amp; 0.40824829 \\ 0.57735027 &amp; 0.0 &amp; -0.81649658 \\ 0.57735027 &amp; -0.70710678 &amp; 0.40824829 \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix},  \end {equation}
 and the inverse transform by \begin {equation}  \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} = \begin {bmatrix} 0.57735027 &amp; 0.57735027 &amp; 0.57735027 \\ 0.70710678 &amp; 0.0 &amp; -0.70710678 \\ 0.40824829 &amp; -0.81649658 &amp; 0.40824829 \end {bmatrix} \begin {bmatrix} \text {DCT}_0 \\ \text {DCT}_1 \\ \text {DCT}_2 \end {bmatrix}.  \end {equation}
 See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/color-DCT_matrix.ipynb'>notebook</a> to see how to compute the filter’s coefficients.
-</p><!-- l. 113 --><p class='indent'>   When applied to the \(\text {RGB}\) color domain, we will move from this domain to the
+</p><!-- l. 54 --><p class='indent'>   When applied to the \(\text {RGB}\) color domain, we will move from this domain to the
 color-DCT domain that have also 3 components, that we will denote by \(\text {DCT}_0\), \(\text {DCT}_1\) and \(\text {DCT}_2\). If the
 decorrelation is effective, most of the energy will be concentrated in \(\text {DCT}_0\), which
 represents the average energy of the image (luminance).
-</p><!-- l. 120 --><p class='indent'>   Notice also that the DCT is orthonormal, and therefore, the matrix of the forward
-transform is the transpose of the matrix of the backward transform <span class='cite'>[<a href='#Xsayood2017introduction'>3</a>]</span>. This also
+</p><!-- l. 61 --><p class='indent'>   Notice also that the DCT is orthonormal, and therefore, the matrix of the forward
+transform is the transpose of the matrix of the backward transform <span class='cite'>[<a href='#Xsayood2017introduction'>1</a>]</span>. This also
 means that the contribution of the synthesis filters (which define the inverse
 transform) to the reconstructed signal are independent and have exactly the unity
-gain.<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-3001f1'></a>
-</p><!-- l. 145 --><p class='noindent'>
+gain.<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-2001f1'></a>
+                                                                  
+
+                                                                  
+</p><!-- l. 86 --><p class='noindent'>
 </p>
-   <h4 class='subsectionHead' id='quantization-in-the-colordct-domain'><span class='titlemark'>1.2   </span> <a id='x1-40001.2'></a>Quantization in the color-DCT domain</h4>
-<!-- l. 146 --><p class='noindent'>The synthesis filters of orthonormal transforms are orthogonal (their contributions
+   <h3 class='sectionHead' id='quantization-in-the-dct-domain'><span class='titlemark'>2   </span> <a id='x1-30002'></a>Quantization in the 3-DCT domain</h3>
+<!-- l. 87 --><p class='noindent'>The synthesis filters of orthonormal transforms are orthogonal (their contributions
 to the reconstructed signal are independent) and have exactly the unity
-gain.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-4001f2'></a>
+gain.<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-3001f2'></a>
 Therefore, without considering that the entropy coding stage can performs better for
 some subbands, the optimal quantization pattern should be \begin {equation}  \Delta _{\text {DCT0}} = \Delta _{\text {DCT1}} = \Delta _{\text {DCT2}}.  \end {equation}
 See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/color-DCT_compression.ipynb'>notebook</a>.
-</p><!-- l. 158 --><p class='indent'>   Notice that to find the gains (of any 1D transform) we can compute the energy of
+</p><!-- l. 99 --><p class='indent'>   Notice that to find the gains (of any 1D transform) we can compute the energy of
 the signal generated by the inverse transform of the impulse discrete 1D signal
 \begin {equation}  \delta _{i}(x) = \left \{ \begin {array}{ll} 1 &amp; \text {if $i=x$}\\ 0 &amp; \text {otherwise}, \end {array} \right .  \end {equation}
 where the <a href='https://en.wikipedia.org/wiki/Energy_(signal_processing)'>energy of a discrete signal</a> \(x\) is defined as \begin {equation}  \langle x, x\rangle = \sum _{i}{x_i^2}.  \end {equation}
-                                                                  
-
-                                                                  
-</p><!-- l. 177 --><p class='indent'>   If we consider that the RD curve can be affeced by the compresiblity of the
+</p><!-- l. 118 --><p class='indent'>   If we consider that the RD curve can be affeced by the compresiblity of the
 subbands, a better solution to find the optimal RD curve is:
      </p><ol class='enumerate1'>
-<li class='enumerate' id='x1-4003x1'>Variying the \(\Delta \), compute the RD curve for each DCT subband.
+<li class='enumerate' id='x1-3003x1'>Variying the \(\Delta \), compute the RD curve for each DCT subband.
      </li>
-<li class='enumerate' id='x1-4005x2'>Sort the RD points (considering the three subbands at once), by their
+<li class='enumerate' id='x1-3005x2'>Sort the RD points (considering the three subbands at once), by their
      slope.
      </li>
-<li class='enumerate' id='x1-4007x3'>Apply progressively the combinations of quantization steps described by
+<li class='enumerate' id='x1-3007x3'>Apply progressively the combinations of quantization steps described by
      the sorted RD points.</li></ol>
-<!-- l. 186 --><p class='noindent'>Notice that this algorithm is right because the DCT is orthogonal, i.e., the
+<!-- l. 127 --><p class='noindent'>Notice that this algorithm is right because the DCT is orthogonal, i.e., the
 contributions of the subbands to the reconstructe signal are independent. See this
 <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/color-DCT_compression.ipynb'>notebook</a>.
-</p><!-- l. 190 --><p class='noindent'>
+</p><!-- l. 131 --><p class='noindent'>
 </p>
-   <h3 class='sectionHead' id='the-ddct'><span class='titlemark'>2   </span> <a id='x1-50002'></a>The 2D-DCT</h3>
-<!-- l. 192 --><p class='noindent'>The 2D-DCT is separable, which means that it can be computed by appliying the
-1D-DCT to the two dimensions of the signal (a digital image, for example). For the
-inverse 2D-DCT, the procedure is similar, but appliying the inverse 1D-DWT in
-reverse order. The Fig. <a href='#x1-5001r1'>1<!-- tex4ht:ref: fig:2D-DCT_basis  --></a> shows the first 64 2D-DCT basis.
-</p>
-   <figure class='figure'> 
-
-                                                                  
-
-                                                                  
-                                                                  
-
-                                                                  
-<!-- l. 199 --><p class='noindent' id='-first-ddct-basis-functions-see-this-httpsgithubcomsistemasmultimediasistemasmultimediagithubioblobmastermilestonesdctdctbasisipynbnotebook-'><div style='text-align:center;'> <img src='graphics/2D-DCT_basis.png' /> </div>  <a id='x1-5001r1'></a>
-<a id='x1-5002'></a>
-</p>
-<figcaption class='caption'><span class='id'>Figure 1: </span><span class='content'>First 64 2D-DCT basis functions (see this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/07-DCT/DCT_basis.ipynb'>notebook</a>).             </span></figcaption><!-- tex4ht:label?: x1-5001r2  -->
-                                                                  
-
-                                                                  
-   </figure>
-   <h4 class='subsectionHead' id='quantization-in-the-spatial-dct-domain'><span class='titlemark'>2.1   </span> <a id='x1-60002.1'></a>Quantization in the (spatial) DCT domain</h4>
-<!-- l. 207 --><p class='noindent'>The DCT is <a href='https://en.wikipedia.org/wiki/Orthonormality'>orthonormal</a> (orthogonal +
-unitary<span class='footnote-mark'><a href='#fn3x0' id='fn3x0-bk'><sup class='textsuperscript'>3</sup></a></span><a id='x1-6001f3'></a>).
-Since the DCT is orthonormal, the gain of each subband is equal to 1, and also that
-the quantization error is <span class='ecti-1000'>amplified </span>with the same gain in all the subbands. However,
-this does not mean that all the subbands should be quantized using the same \(\Delta \),
-because some subbands can be compressed more efficienly than others and their
-distortion (after quantization) can be different. This <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/07-DCT/block_DCT_compression.ipynb'>notebook</a> shows how to use RD
-optimization to determine, given a target bit-rate, the best combination of
-quantization steps per subbands.
-</p><!-- l. 222 --><p class='noindent'>
-</p>
-   <h3 class='sectionHead' id='resources'><span class='titlemark'>3   </span> <a id='x1-70003'></a>Resources</h3>
+   <h3 class='sectionHead' id='references'><span class='titlemark'>3   </span> <a id='x1-40003'></a>References</h3>
    <div class='thebibliography'>
+                                                                  
+
+                                                                  
    <p class='bibitem'><span class='biblabel'>
- [1]<span class='bibsp'>   </span></span><a id='Xburger2016digital'></a>W. Burger and M.J. Burge.  <a href='https://educons.edu.rs/wp-content/uploads/2020/05/2016-Digital-Image-Processing.pdf'><span class='ecti-1000'>Digital Image Processing: An Algorithmic
-   </span><span class='ecti-1000'>Introduction Using Java</span></a>. Springer, 2016.
-   </p>
-   <p class='bibitem'><span class='biblabel'>
- [2]<span class='bibsp'>   </span></span><a id='Xvruiz__transform_coding'></a>V. González-Ruiz. <a href='https://vicente-gonzalez-ruiz.github.io/transform_coding/'>Transform Coding</a>.
-   </p>
-   <p class='bibitem'><span class='biblabel'>
- [3]<span class='bibsp'>   </span></span><a id='Xsayood2017introduction'></a>K. Sayood.    <a href='http://rahilshaikh.weebly.com/uploads/1/1/6/3/11635894/data_compression.pdf'><span class='ecti-1000'>Introduction  to  Data  Compression</span></a>  <a href='https://people.cs.nctu.edu.tw/~cmliu/Courses/Compression/'><span class='ecti-1000'>(Slides)</span></a>.    Morgan
+ [1]<span class='bibsp'>   </span></span><a id='Xsayood2017introduction'></a>K. Sayood.    <a href='http://rahilshaikh.weebly.com/uploads/1/1/6/3/11635894/data_compression.pdf'><span class='ecti-1000'>Introduction  to  Data  Compression</span></a>  <a href='https://people.cs.nctu.edu.tw/~cmliu/Courses/Compression/'><span class='ecti-1000'>(Slides)</span></a>.    Morgan
    Kaufmann, 2017.
 </p>
    </div>
-   <div class='footnotes'><!-- l. 143 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>To find the gains of any 1D transform we can compute the energy of the signal generated by
+   <div class='footnotes'><!-- l. 84 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>To find the gains of any 1D transform we can compute the energy of the signal generated by
 </span><span class='ecrm-0800'>the inverse transform of the impulse discrete 1D signal </span>\begin {equation}  \delta _{i}(x) = \left \{ \begin {array}{ll} 1 &amp; \text {if $i=x$}\\ 0 &amp; \text {otherwise}, \end {array} \right .  \end {equation}
 <span class='ecrm-0800'>where the </span><a href='https://en.wikipedia.org/wiki/Energy_(signal_processing)'><span class='ecrm-0800'>energy of a discrete signal</span></a> \(\mathbf s\) <span class='ecrm-0800'>is defined as </span>\begin {equation}  \langle {\mathbf s}, {\mathbf s} \rangle = \sum _{i}{{\mathbf s}_i^2}.  \end {equation}
-</p><!-- l. 149 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>The quantization error is the same in all the subbands because all of them have exactly the
-</span><span class='ecrm-0800'>same gain.</span></p>
-<!-- l. 212 --><p class='indent'>     <span class='footnote-mark'><a href='#fn3x0-bk' id='fn3x0'><sup class='textsuperscript'>3</sup></a></span><span class='ecrm-0800'>Unitary transforms are energy preserving; that is, the sum of the squares of the transformed
-</span><span class='ecrm-0800'>sequence is the same as the sum of the squares of the original sequence.</span></p>                            </div>
+</p><!-- l. 90 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>The quantization error is the same in all the subbands because all of them have exactly the
+</span><span class='ecrm-0800'>same gain.</span></p>                                                                                                            </div>
  
 </body> 
 </html>

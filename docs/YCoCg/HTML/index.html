@@ -28,8 +28,7 @@
 <br />    <span class='sectionToc'>3 <a href='#effects-of-the-transform' id='QQ2-1-4'>Effects of the transform</a></span>
 <br />    <span class='sectionToc'>4 <a href='#the-rgb-ycocg-transform' id='QQ2-1-5'>The \(\text {RGB} \Leftrightarrow \text {YCoCg}\) transform</a></span>
 <br />    <span class='sectionToc'>5 <a href='#quantization-in-the-ycocg-domain' id='QQ2-1-6'>Quantization in the \(\text {YCoCg}\) domain</a></span>
-<br />     <span class='subsectionToc'>5.1 <a href='#ratecontrol' id='QQ2-1-7'>Rate-control</a></span>
-<br />    <span class='sectionToc'>6 <a href='#references' id='QQ2-1-8'>References</a></span>
+<br />    <span class='sectionToc'>6 <a href='#references' id='QQ2-1-7'>References</a></span>
    </div>
 <!-- l. 8 --><p class='noindent'>
 </p>
@@ -95,40 +94,17 @@ Matrix</a>.
 </p><!-- l. 160 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='quantization-in-the-ycocg-domain'><span class='titlemark'>5   </span> <a id='x1-60005'></a>Quantization in the \(\text {YCoCg}\) domain</h3>
-<!-- l. 161 --><p class='noindent'>Unlike the DCT, the gains of the synthesis filters of the inverse \(\text {YCoCg}\) transform are not
-the same. As it can be seen in <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/contents/YCoCg_SQ/YCoCG_SQ.ipynb'>YCoCG_SQ.ipynb</a>, the \(\text {Y}\) and the \(\text {Cg}\) subbands are \(3/2\) times
-more energetic than the \(\text {Co}\) subband. This basically means that the quantization
-error <span class='cite'>[<span class='ecbx-1000'>?</span>]</span> generated in the \(\text {Y}\) and \(\text {Cg}\) subbands is more relevant that the quantization
-error generated in the \(\text {Co}\) subband (exactly, \(1.5\) times more important). Therefore,
-the
-</p><!-- l. 171 --><p class='indent'>   Again, like in the color-DCT, ignoring the possible effects of the entropy encoding
-stage (that could compress more some color subbands), the previous gains suggest to
-use \begin {equation}  \frac {3}{2}\Delta _{\text {Y}} = \Delta _{\text {Co}} = \frac {3}{2}\Delta _{\text {Cg}}.  \end {equation}
-See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/YCrCb_matrix.ipynb'>notebook</a>.
-</p><!-- l. 179 --><p class='indent'>   If the RD slope of each point depends also on the performance of DEFLATE
-(something that is normal), we can find the optimal RD curve with the
-algorithm:
-     </p><ol class='enumerate1'>
-<li class='enumerate' id='x1-6002x1'>Varilling the \(\Delta \), estimate (remember that YCoCg is only near-orthonal), the
-     RD curve of each YCoCg subband can de found (without considering the
-     rest of subbands).
-     </li>
-<li class='enumerate' id='x1-6004x2'>Sort the RD points by their slope.
-     </li>
-                                                                  
-
-                                                                  
-<li class='enumerate' id='x1-6006x3'>Apply progressively the combinations of quantization steps. Measure the
-     distortion in the RGB domain (in the transform domain could be only
-     estimated).</li></ol>
-<!-- l. 190 --><p class='noindent'>
+<!-- l. 161 --><p class='noindent'>As it can be seen in the notebook <a href='https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCoCg/notebooks/YCoCg_over_RGB.ipynb'>Removing RGB redundancy with the \(\text {YCoCg}\) transform</a>,
+the \(\text {Y}\) and the \(\text {Cg}\) subbands are \(3/2\) times more energetic than the \(\text {Co}\) subband. This basically
+means that the quantization error generated in the \(\text {Y}\) and \(\text {Cg}\) subbands is more relevant
+that the quantization error generated in the \(\text {Co}\) subband (exactly, \(1.5\) times more
+important). Therefore, ignoring the possible effects of the entropy encoding stage
+(that could compress more some color subbands), the previous gains suggest to use \begin {equation}  \frac {3}{2}\Delta _{\text {Y}} = \Delta _{\text {Co}} = \frac {3}{2}\Delta _{\text {Cg}}.  \end {equation}
+</p><!-- l. 175 --><p class='indent'>   However, the optimal pattern of quantization step sizes should select points in the
+RD curve with the same slope, inside of each subband.
+</p><!-- l. 202 --><p class='noindent'>
 </p>
-   <h4 class='subsectionHead' id='ratecontrol'><span class='titlemark'>5.1   </span> <a id='x1-70005.1'></a>Rate-control</h4>
-<!-- l. 192 --><p class='noindent'>When the transform is orthogonal, the quantization step of a subband should be
-inversely proportional to the subband gain.
-</p><!-- l. 195 --><p class='noindent'>
-</p>
-   <h3 class='sectionHead' id='references'><span class='titlemark'>6   </span> <a id='x1-80006'></a>References</h3>
+   <h3 class='sectionHead' id='references'><span class='titlemark'>6   </span> <a id='x1-70006'></a>References</h3>
    <div class='thebibliography'>
    <p class='bibitem'><span class='biblabel'>
  [1]<span class='bibsp'>   </span></span><a id='Xmalvar2008lifting'></a>H.S. Malvar, G.J. Sullivan, and S. Srinivasan.  <a href='https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/2008_ColorTransforms_MalvarSullivanSrinivasan.pdf'>Lifting-based reversible
@@ -137,6 +113,9 @@ inversely proportional to the subband gain.
    International Society for Optics and Photonics, 2008.
 </p>
    </div>
+                                                                  
+
+                                                                  
    <div class='footnotes'><!-- l. 11 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>Luminance can be considered as the intensity part of a viual stimuli.</span></p>
 <!-- l. 44 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>Without considering the rest of components.</span></p>
 <!-- l. 53 --><p class='indent'>     <span class='footnote-mark'><a href='#fn3x0-bk' id='fn3x0'><sup class='textsuperscript'>3</sup></a></span><span class='ecrm-0800'>Recorded with the first analog color cameras in the 70’s.</span></p>

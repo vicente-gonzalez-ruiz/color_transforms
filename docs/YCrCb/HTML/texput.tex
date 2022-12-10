@@ -24,6 +24,9 @@ components.\footnote{Notice, however, that in the digital world
 bandwidth savings are equivalent to reduce the sampling
 rate.}~\cite{burger2016digital}
 
+The $\text{YCrCb}$ color domain has been used in JPEG to remove both,
+statistical and visual redundancy.
+
 \section{The $\text{RGB} \Leftrightarrow \text{YCrCb}$ transform}
 %{{{ 
 
@@ -171,17 +174,32 @@ The $\text{YCrCb}$ transform uses three non-orthogonal
 subbands~\cite{vruiz__transform_coding} that we will denote by
 $\text{Y}$, $\text{Cr}$, and $\text{Cb}$. Since in most of the images,
 most of the energy is concentrated in the subband $\text{Y}$, the
-transformed image improves its RD curve. This can be checked in the
-\href{}{Removing RGB redundancy with the YCrCb transform}.
+transformed image improves its RD curve. This can be checked in the notebook
+\href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCrCb/notebooks/YCrCb_over_RGB.ipynb}{Removing
+  RGB redundancy with the YCrCb transform}.
 
-As it can be also seen in this notebook, the $\text{YCrCb}$ transform
-the gains of the synthesis filters depends on the amplitude of the
-coefficients. This basically means that we cannot optimze the
-quantization steps to minimize the distortion.
+\section{Optimal quantization in the $\text{YCrCb}$ domain}
 
-The $\text{YCrCb}$ color domain has been used in JPEG to remove both,
-statistical and visual redundancy.
+Unfortunately, as it can be also seen in the notebook
+\href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCrCb/notebooks/YCrCb_over_RGB.ipynb}{Removing
+  RGB redundancy with the YCrCb transform}, the gains of the synthesis
+filters depends on the amplitude of the coefficients (this is a direct
+consequence of the interdependency of the filters). Therefore, when
+one of the subbands is quantized, for example $\text{Y}$, this error
+will be propagated to the other subbands. This also implies that the
+quantization error generated in one subband only can be measured in
+the $\text{RGB}$ domain.
 
+These dificulties make impossible to select the
+optimal\footnote{Remember that the optimal quantization step sizes
+should select in each subband a RD point where the slope of the RD
+curve in the transform domain is the same.} quantization step sizes
+pattern in the transform domain, considering only the RD curves of
+each subband. The only solution is to solve this problem by brute
+force, quantizing in the transformed domain and testing the result in
+the image domain for different quantization patterns.
+
+\begin{comment}
 \section{Quantization in the $\text{YCrCb}$ domain}
 %{{{ 
 The YCrCb transform is not orthogonal and the relative synthesis
@@ -193,13 +211,15 @@ algorithm:
 \begin{enumerate}
 \item Variying the $\Delta$, estimate the RD curve for each YCrCb
   subband, keeping the other subbands unquantized. The distortion must
-  be measures in the RGB domain.
+  be measured in the RGB domain.
 \item Sort the RD points by their slope.
 \item Apply progressively the combinations quantization steps. The
-  distortion can be measure in both, the color-DCT and the RGB
+  distortion can be measured in both, the transform and the RGB
   domains.
 \end{enumerate}
-See this \href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/YCrCb_compression.ipynb}{notebook}.
+See the notebook
+\href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCrCb/notebooks/YCrCb_over_RGB.ipynb}{Removing
+  RGB redundancy with the YCrCb transform}.
 
 Notice that the only alternative to this ``fast'' rate-control
 algorithm is to perform a brute-force search of quantization steps
@@ -230,6 +250,7 @@ and therefore the contribution of each channel to the quality of the
 reconstructed image $\tilde{X}$ are not additive (this can be seen in
 this
 \href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/study_guide/06-color_transform/performance.ipynb}{notebook}).
+\end{comment}
 
 \section{References}
 %{{{ 

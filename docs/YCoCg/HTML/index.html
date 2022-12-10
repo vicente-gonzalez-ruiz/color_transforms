@@ -87,24 +87,25 @@ orthogonality constrain <span class='cite'>[<a href='#Xmalvar2008lifting'>1</a>]
 \begin {equation}  \begin {bmatrix} \text {Y} \\ \text {Co} \\ \text {Cg} \end {bmatrix} = \begin {bmatrix} \frac {1}{4} &amp; \frac {1}{2} &amp; \frac {1}{4} \\ \frac {1}{2} &amp; 0 &amp; -\frac {1}{2} \\ -\frac {1}{4} &amp; \frac {1}{2} &amp; -\frac {1}{4} \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} \Leftrightarrow \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} = \begin {bmatrix} 1 &amp; 1 &amp; -1 \\ 1 &amp; 0 &amp; 1 \\ 1 &amp; -1 &amp; -1 \end {bmatrix} \begin {bmatrix} \text {Y} \\ \text {Co} \\ \text {Cg} \end {bmatrix},  \end {equation}
 that is near orthogonal<span class='footnote-mark'><a href='#fn6x0' id='fn6x0-bk'><sup class='textsuperscript'>6</sup></a></span><a id='x1-5005f6'></a>,
 and has channel gains 3 (\(\text {Y}\)), 2 (\(\text {Co}\)) and 3 (\(\text {Cg}\)).
-</p><!-- l. 149 --><p class='indent'>   Again, notice that if the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and rounding to the
-nearest integer), \(0\le \text {Y}\le 255\), \(-128\le \text {Co}\le 127\) and \(-128\le \text {Cg}\le 127\), and therefore, the number of bits that are necessary to
-represent each component is \(8\). Therefore, we can use the same QS range for each
-component. See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/YCrCb_matrix.ipynb'>notebook</a>.
-</p><!-- l. 158 --><p class='noindent'>
+</p><!-- l. 149 --><p class='indent'>   Again, notice that if the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and rounding
+to the nearest integer), \(0\le \text {Y}\le 255\), \(-128\le \text {Co}\le 127\) and \(-128\le \text {Cg}\le 127\), and therefore, the number of bits that are
+necessary to represent each component is \(8\). Therefore, we can use the same range
+quantization step sizes for each component. See the notebook <a href='https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCoCg/notebooks/YCoCg_matrix.ipynb'>YCoCg (Inverse)
+Matrix</a>.
+</p><!-- l. 160 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='quantization-in-the-ycocg-domain'><span class='titlemark'>5   </span> <a id='x1-60005'></a>Quantization in the \(\text {YCoCg}\) domain</h3>
-<!-- l. 159 --><p class='noindent'>Unlike the DCT, the gains of the synthesis filters of the inverse \(\text {YCoCg}\) transform are not
+<!-- l. 161 --><p class='noindent'>Unlike the DCT, the gains of the synthesis filters of the inverse \(\text {YCoCg}\) transform are not
 the same. As it can be seen in <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/contents/YCoCg_SQ/YCoCG_SQ.ipynb'>YCoCG_SQ.ipynb</a>, the \(\text {Y}\) and the \(\text {Cg}\) subbands are \(3/2\) times
 more energetic than the \(\text {Co}\) subband. This basically means that the quantization
 error <span class='cite'>[<span class='ecbx-1000'>?</span>]</span> generated in the \(\text {Y}\) and \(\text {Cg}\) subbands is more relevant that the quantization
 error generated in the \(\text {Co}\) subband (exactly, \(1.5\) times more important). Therefore,
 the
-</p><!-- l. 169 --><p class='indent'>   Again, like in the color-DCT, ignoring the possible effects of the entropy encoding
+</p><!-- l. 171 --><p class='indent'>   Again, like in the color-DCT, ignoring the possible effects of the entropy encoding
 stage (that could compress more some color subbands), the previous gains suggest to
 use \begin {equation}  \frac {3}{2}\Delta _{\text {Y}} = \Delta _{\text {Co}} = \frac {3}{2}\Delta _{\text {Cg}}.  \end {equation}
 See this <a href='https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/YCrCb_matrix.ipynb'>notebook</a>.
-</p><!-- l. 177 --><p class='indent'>   If the RD slope of each point depends also on the performance of DEFLATE
+</p><!-- l. 179 --><p class='indent'>   If the RD slope of each point depends also on the performance of DEFLATE
 (something that is normal), we can find the optimal RD curve with the
 algorithm:
      </p><ol class='enumerate1'>
@@ -114,15 +115,18 @@ algorithm:
      </li>
 <li class='enumerate' id='x1-6004x2'>Sort the RD points by their slope.
      </li>
+                                                                  
+
+                                                                  
 <li class='enumerate' id='x1-6006x3'>Apply progressively the combinations of quantization steps. Measure the
      distortion in the RGB domain (in the transform domain could be only
      estimated).</li></ol>
-<!-- l. 188 --><p class='noindent'>
+<!-- l. 190 --><p class='noindent'>
 </p>
    <h4 class='subsectionHead' id='ratecontrol'><span class='titlemark'>5.1   </span> <a id='x1-70005.1'></a>Rate-control</h4>
-<!-- l. 190 --><p class='noindent'>When the transform is orthogonal, the quantization step of a subband should be
+<!-- l. 192 --><p class='noindent'>When the transform is orthogonal, the quantization step of a subband should be
 inversely proportional to the subband gain.
-</p><!-- l. 193 --><p class='noindent'>
+</p><!-- l. 195 --><p class='noindent'>
 </p>
    <h3 class='sectionHead' id='references'><span class='titlemark'>6   </span> <a id='x1-80006'></a>References</h3>
    <div class='thebibliography'>

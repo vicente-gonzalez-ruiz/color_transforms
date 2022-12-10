@@ -146,12 +146,14 @@ that is near orthogonal\footnote{For example, $\frac{1}{4}\frac{-1}{4}
 we should obtain always 0.}, and has channel gains 3 ($\text{Y}$), 2
 ($\text{Co}$) and 3 ($\text{Cg}$). %These gains suggest that
 
-Again, notice that if the $\text{RGB}$ values ranges between $0$
-and $255$ (and rounding to the nearest integer), $0\le\text{Y}\le 255$,
+Again, notice that if the $\text{RGB}$ values ranges between $0$ and
+$255$ (and rounding to the nearest integer), $0\le\text{Y}\le 255$,
 $-128\le\text{Co}\le 127$ and $-128\le\text{Cg}\le 127$, and
 therefore, the number of bits that are necessary to represent each
-component is $8$. Therefore, we can use the same QS range for each
-component. See this \href{https://github.com/Sistemas-Multimedia/Sistemas-Multimedia.github.io/blob/master/milestones/06-YUV_compression/YCrCb_matrix.ipynb}{notebook}.
+component is $8$. Therefore, we can use the same range quantization
+step sizes for each component. See the notebook
+\href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCoCg/notebooks/YCoCg_matrix.ipynb}{YCoCg
+  (Inverse) Matrix}.
 
 % }}}
 

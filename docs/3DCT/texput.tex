@@ -53,10 +53,12 @@ See the notebook
 
 When applied to the $\text{RGB}$ color domain, we will move from this
 domain to the color-DCT domain that have also 3 components, that we
-will denote by $\text{DCT}_0$, $\text{DCT}_1$ and $\text{DCT}_2$. If
+will denote by $\text{DCT}^0$, $\text{DCT}^1$ and $\text{DCT}^2$. If
 the decorrelation is effective, most of the energy will be
-concentrated in $\text{DCT}_0$, which represents the average energy of
-the image (luminance).
+concentrated in $\text{DCT}^0$, which represents the average energy of
+the image (luminance) (see the notebook
+\href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/3DCT/notebooks/3DCT_over_RGB.ipynb}{Removing
+  RGB redundancy with the 3-Channels DCT}).
 
 Notice also that the DCT is orthonormal, and therefore, the matrix of
 the forward transform is the transpose of the matrix of the backward
@@ -92,7 +94,7 @@ Therefore, without considering that the entropy coding stage can
 performs better for some subbands, the optimal quantization pattern
 should be
 \begin{equation}
-  \Delta_{\text{DCT0}} = \Delta_{\text{DCT1}} = \Delta_{\text{DCT2}}.
+  \Delta_{\text{DCT}^0} = \Delta_{\text{DCT}^1} = \Delta_{\text{DCT}^2}.
 \end{equation}
 See the notebook
 \href{https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/3DCT/notebooks/3DCT_over_RGB.ipynb}{Removing
@@ -121,6 +123,14 @@ If we consider that the RD curve can be affeced by the compresibility
 of the subbands, a better solution to find the optimal RD curve would
 consist in selecting the quantization step size for each subband that
 produce the same slope in the corresponding RD channel curve.
+
+\section{Rate/Distortion Optimization}
+
+The use of scalar quantization open the posibility of using a
+different quantization step size for each subband, depending on the
+slopes of the corresponding RD points. The DCT is orthogonal, and this
+means that we can optimize directly in the transform domain, using the
+RD curves of each subband, independently.
 
 \section{References}
 

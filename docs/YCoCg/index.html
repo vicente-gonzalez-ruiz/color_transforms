@@ -1,0 +1,128 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head> <title>The YCoCg Transform</title> 
+<meta charset='utf-8' /> 
+<meta content='TeX4ht (https://tug.org/tex4ht/)' name='generator' /> 
+<meta content='width=device-width,initial-scale=1' name='viewport' /> 
+<link href='index.css' rel='stylesheet' type='text/css' /> 
+<meta content='index.tex' name='src' /> 
+<script>window.MathJax = { tex: { tags: "ams", }, }; </script> 
+ <script async='async' id='MathJax-script' src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js' type='text/javascript'></script>  
+</head><body>
+   <div class='maketitle'>
+                                                                  
+
+                                                                  
+                                                                  
+
+                                                                  
+
+<h2 class='titleHead'>The \(\text {YCoCg}\) Transform</h2>
+ <div class='author'><a href='https://cms.ual.es/UAL/personas/persona.htm?id=515256515553484875'><span class='ecrm-1200'>Vicente González Ruiz</span></a> <span class='ecrm-1200'>- </span><a href='https://cms.ual.es/UAL/universidad/departamentos/informatica/index.htm'><span class='ecrm-1200'>Depto Informática</span></a> <span class='ecrm-1200'>- </span><a href='https://www.ual.es'><span class='ecrm-1200'>UAL</span></a></div><br />
+<div class='date'><span class='ecrm-1200'>December 12, 2022</span></div>
+   </div>
+   <h3 class='likesectionHead' id='contents'><a id='x1-1000'></a>Contents</h3>
+   <div class='tableofcontents'>
+    <span class='sectionToc'>1 <a href='#the-ycocg-color-domain' id='QQ2-1-2'>The \(\text {YCoCg}\) color domain</a></span>
+<br />    <span class='sectionToc'>2 <a href='#color-decorrelation-with-the-ycocg-transform' id='QQ2-1-3'>Color decorrelation with the \(\text {YCoCg}\) transform</a></span>
+<br />    <span class='sectionToc'>3 <a href='#effects-of-the-transform' id='QQ2-1-4'>Effects of the transform</a></span>
+<br />    <span class='sectionToc'>4 <a href='#the-rgb-ycocg-transform' id='QQ2-1-5'>The \(\text {RGB} \Leftrightarrow \text {YCoCg}\) transform</a></span>
+<br />    <span class='sectionToc'>5 <a href='#quantization-in-the-ycocg-domain' id='QQ2-1-6'>Quantization in the \(\text {YCoCg}\) domain</a></span>
+<br />    <span class='sectionToc'>6 <a href='#references' id='QQ2-1-7'>References</a></span>
+   </div>
+<!-- l. 8 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='the-ycocg-color-domain'><span class='titlemark'>1   </span> <a id='x1-20001'></a>The \(\text {YCoCg}\) color domain</h3>
+<!-- l. 9 --><p class='noindent'>\(\text {YCoCg}\) is a <span class='ecti-1000'>luma</span>-based (luminance-based<span class='footnote-mark'><a href='#fn1x0' id='fn1x0-bk'><sup class='textsuperscript'>1</sup></a></span><a id='x1-2001f1'></a>)
+color domain. This domain rely on the idea of separating the luminance
+coefficients (Y) from two <span class='ecti-1000'>chroma </span>coefficients (orange and green in the case of
+\(\text {YCoCg}\)).
+</p><!-- l. 15 --><p class='indent'>   The \(\text {YCoCg}\) color model is a succesor of <a href='https://vicente-gonzalez-ruiz.github.io/color_transforms/docs/YCrCb/HTML/'>the \(\text {YCrCb}\) one</a>, where the transform filters
+has been redefined to be more efficient (considering more and new images).
+Moreover, it can be also considered a the digital version of the <a href='https://en.wikipedia.org/wiki/YUV'>\(\text {YUV}\) (analog) color
+model</a>.
+                                                                  
+
+                                                                  
+</p><!-- l. 23 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='color-decorrelation-with-the-ycocg-transform'><span class='titlemark'>2   </span> <a id='x1-30002'></a>Color decorrelation with the \(\text {YCoCg}\) transform</h3>
+<!-- l. 24 --><p class='noindent'>The \(\text {YCoCg}\) is a near-orthogonal transform that has been specifically designed to accumulate
+energy in the \(\text {Y}\) luma subband. The subbands \(\text {Co}\) and \(\text {Cg}\) represents the croma (orange and
+green, respectively). The size of the subbands is the same than the number of pixels
+in the original image.
+</p><!-- l. 30 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='effects-of-the-transform'><span class='titlemark'>3   </span> <a id='x1-40003'></a>Effects of the transform</h3>
+<!-- l. 31 --><p class='noindent'>Basically the same than in the case of the <a href='https://vicente-gonzalez-ruiz.github.io/color_transforms/docs/3DCT/HTML/'>3-channels DCT</a>:
+     </p><ol class='enumerate1'>
+<li class='enumerate' id='x1-4002x1'>Smaller entropy (better RD curves).
+     </li>
+<li class='enumerate' id='x1-4004x2'>High dynamic range (more points in the RD curves).</li></ol>
+<!-- l. 39 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='the-rgb-ycocg-transform'><span class='titlemark'>4   </span> <a id='x1-50004'></a>The \(\text {RGB} \Leftrightarrow \text {YCoCg}\) transform</h3>
+<!-- l. 42 --><p class='noindent'>Clearly, orthogonality is a desired property in lossy compression systems because it helps
+to isolate<span class='footnote-mark'><a href='#fn2x0' id='fn2x0-bk'><sup class='textsuperscript'>2</sup></a></span><a id='x1-5001f2'></a>
+the impact (in the case of a color transform) of each color subband on the quality of
+the reconstruction of the image, simplifying significantly the determination of the
+sequence of patterns of quantization step sizes that generate the optimal RD
+curve.
+</p><!-- l. 50 --><p class='indent'>   Moreover, the filters used in the \(\text {YCrCb}\) transform were derived by <a href='https://en.wikipedia.org/wiki/Principal_component_analysis'>Principal Component Analysis
+(PCA)</a> on old<span class='footnote-mark'><a href='#fn3x0' id='fn3x0-bk'><sup class='textsuperscript'>3</sup></a></span><a id='x1-5002f3'></a>
+video data. The same procedure has been carried out with
+newer<span class='footnote-mark'><a href='#fn4x0' id='fn4x0-bk'><sup class='textsuperscript'>4</sup></a></span><a id='x1-5003f4'></a>
+images, obtaining that \begin {equation}  \begin {bmatrix} \text {Y} \\ \text {C}_1 \\ \text {C}_2 \end {bmatrix} = \begin {bmatrix} \frac {1}{3} &amp; \frac {1}{3} &amp; \frac {1}{3} \\ \frac {1}{2} &amp; 0 &amp; -\frac {1}{2} \\ -\frac {1}{4} &amp; \frac {1}{2} &amp; -\frac {1}{4} \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} \Leftrightarrow \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} = \begin {bmatrix} 1 &amp; 1 &amp; -\frac {2}{3} \\ 1 &amp; 0 &amp; \frac {4}{3} \\ 1 &amp; -1 &amp; -\frac {2}{3} \end {bmatrix} \begin {bmatrix} \text {Y} \\ \text {C}_1 \\ \text {C}_2 \end {bmatrix}. \label {eq:optimal}  \end {equation}
+</p><!-- l. 95 --><p class='indent'>   The <a href='https://en.wikipedia.org/wiki/YCoCg'>YCoCg</a> color transform is orthogonal and the synthesis filters
+gains<span class='footnote-mark'><a href='#fn5x0' id='fn5x0-bk'><sup class='textsuperscript'>5</sup></a></span><a id='x1-5004f5'></a>
+are 22/9 (for \(\text {Y}\)), 25/9 (for \(\text {C}_1\)) and 22/9 (for \(\text {C}_2\)).
+                                                                  
+
+                                                                  
+</p><!-- l. 101 --><p class='indent'>   Unfortunately, from a perceptual perspective we must impose (thinking of the
+subsampling of the chromas) some features in a color transform (such as the influence
+of the green channel on the luma channel should be high) that violates the
+orthogonality constrain <span class='cite'>[<a href='#Xmalvar2008lifting'>1</a>]</span>. For this reason the authors finally propose the transform
+\begin {equation}  \begin {bmatrix} \text {Y} \\ \text {Co} \\ \text {Cg} \end {bmatrix} = \begin {bmatrix} \frac {1}{4} &amp; \frac {1}{2} &amp; \frac {1}{4} \\ \frac {1}{2} &amp; 0 &amp; -\frac {1}{2} \\ -\frac {1}{4} &amp; \frac {1}{2} &amp; -\frac {1}{4} \end {bmatrix} \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} \Leftrightarrow \begin {bmatrix} \text {R} \\ \text {G} \\ \text {B} \end {bmatrix} = \begin {bmatrix} 1 &amp; 1 &amp; -1 \\ 1 &amp; 0 &amp; 1 \\ 1 &amp; -1 &amp; -1 \end {bmatrix} \begin {bmatrix} \text {Y} \\ \text {Co} \\ \text {Cg} \end {bmatrix},  \end {equation}
+that is near orthogonal<span class='footnote-mark'><a href='#fn6x0' id='fn6x0-bk'><sup class='textsuperscript'>6</sup></a></span><a id='x1-5005f6'></a>,
+and has channel gains 3 (\(\text {Y}\)), 2 (\(\text {Co}\)) and 3 (\(\text {Cg}\)).
+</p><!-- l. 149 --><p class='indent'>   Again, notice that if the \(\text {RGB}\) values ranges between \(0\) and \(255\) (and rounding
+to the nearest integer), \(0\le \text {Y}\le 255\), \(-128\le \text {Co}\le 127\) and \(-128\le \text {Cg}\le 127\), and therefore, the number of bits that are
+necessary to represent each component is \(8\). Therefore, we can use the same range
+quantization step sizes for each component. See the notebook <a href='https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCoCg/notebooks/YCoCg_matrix.ipynb'>YCoCg (Inverse)
+Matrix</a>.
+</p><!-- l. 160 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='quantization-in-the-ycocg-domain'><span class='titlemark'>5   </span> <a id='x1-60005'></a>Quantization in the \(\text {YCoCg}\) domain</h3>
+<!-- l. 161 --><p class='noindent'>As it can be seen in the notebook <a href='https://github.com/vicente-gonzalez-ruiz/color_transforms/blob/main/docs/YCoCg/notebooks/YCoCg_over_RGB.ipynb'>Removing RGB redundancy with the \(\text {YCoCg}\) transform</a>,
+the \(\text {Y}\) and the \(\text {Cg}\) subbands are \(3/2\) times more energetic than the \(\text {Co}\) subband. This basically
+means that the quantization error generated in the \(\text {Y}\) and \(\text {Cg}\) subbands is more relevant
+that the quantization error generated in the \(\text {Co}\) subband (exactly, \(1.5\) times more
+important). Therefore, ignoring the possible effects of the entropy encoding stage
+(that could compress more some color subbands), the previous gains suggest to use \begin {equation}  \frac {3}{2}\Delta _{\text {Y}} = \Delta _{\text {Co}} = \frac {3}{2}\Delta _{\text {Cg}}.  \end {equation}
+</p><!-- l. 175 --><p class='indent'>   However, the optimal pattern of quantization step sizes should select points in the
+RD curve with the same slope, inside of each subband.
+</p><!-- l. 202 --><p class='noindent'>
+</p>
+   <h3 class='sectionHead' id='references'><span class='titlemark'>6   </span> <a id='x1-70006'></a>References</h3>
+   <div class='thebibliography'>
+   <p class='bibitem'><span class='biblabel'>
+ [1]<span class='bibsp'>   </span></span><a id='Xmalvar2008lifting'></a>H.S. Malvar, G.J. Sullivan, and S. Srinivasan.  <a href='https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/2008_ColorTransforms_MalvarSullivanSrinivasan.pdf'>Lifting-based reversible
+   color  transformations  for  image  compression</a>.   In  <span class='ecti-1000'>Applications of Digital
+   </span><span class='ecti-1000'>Image  Processing  XXXI</span>,  volume  7073,  pages  707307–1  –  707307–10.
+   International Society for Optics and Photonics, 2008.
+</p>
+   </div>
+                                                                  
+
+                                                                  
+   <div class='footnotes'><!-- l. 11 --><p class='indent'>     <span class='footnote-mark'><a href='#fn1x0-bk' id='fn1x0'><sup class='textsuperscript'>1</sup></a></span><span class='ecrm-0800'>Luminance can be considered as the intensity part of a viual stimuli.</span></p>
+<!-- l. 44 --><p class='indent'>     <span class='footnote-mark'><a href='#fn2x0-bk' id='fn2x0'><sup class='textsuperscript'>2</sup></a></span><span class='ecrm-0800'>Without considering the rest of components.</span></p>
+<!-- l. 53 --><p class='indent'>     <span class='footnote-mark'><a href='#fn3x0-bk' id='fn3x0'><sup class='textsuperscript'>3</sup></a></span><span class='ecrm-0800'>Recorded with the first analog color cameras in the 70’s.</span></p>
+<!-- l. 55 --><p class='indent'>     <span class='footnote-mark'><a href='#fn4x0-bk' id='fn4x0'><sup class='textsuperscript'>4</sup></a></span><span class='cite'><span class='ecrm-0800'>[</span><a href='#Xmalvar2008lifting'><span class='ecrm-0800'>1</span></a><span class='ecrm-0800'>]</span></span> <span class='ecrm-0800'>is dated in 2008.</span></p>
+<!-- l. 98 --><p class='indent'>     <span class='footnote-mark'><a href='#fn5x0-bk' id='fn5x0'><sup class='textsuperscript'>5</sup></a></span><span class='ecrm-0800'>The gain of a transform can be determined computing the squared norm of the rows of the
+</span><span class='ecrm-0800'>synthesis transform (the synthesis filters).</span></p>
+<!-- l. 146 --><p class='indent'>     <span class='footnote-mark'><a href='#fn6x0-bk' id='fn6x0'><sup class='textsuperscript'>6</sup></a></span><span class='ecrm-0800'>For example,</span> \(\frac {1}{4}\frac {-1}{4} + \frac {1}{2}\frac {1}{2} + \frac {1}{4}\frac {-1}{4} = \frac {1}{8}\)<span class='ecrm-0800'>, and we should obtain always 0.</span></p>                                                  </div>
+ 
+</body> 
+</html>

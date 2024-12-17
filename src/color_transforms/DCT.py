@@ -10,7 +10,7 @@ norm = "ortho" # Orthonormal: orthogonal + unitary (unit gain in both directions
 name = "color-DCT"
 
 def from_RGB(RGB_img: np.ndarray) -> np.ndarray:
-    DCT_img = np.empty_like(RGB_img).astype(np.float)
+    DCT_img = np.empty_like(RGB_img).astype(np.float32)
     for y in range(RGB_img.shape[0]):
         for x in range(RGB_img.shape[1]):
             DCT_img[y, x] = dct(RGB_img[y, x], type=DCT_type, norm=norm)
